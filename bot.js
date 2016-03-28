@@ -59,9 +59,9 @@ function cardPrice(cardname) {
           output += cardname + "\n";
           output += thisPrice.name;
           output += " (" + thisPrice.print_tag + ") ";
-          output += " Low: $" + thisPrice.prices.low + ", ";
-          output += " Avg: $" + thisPrice.prices.average + ", ";
-          output += " High: $" + thisPrice.prices.high + "\n";
+          output += " Low: $" + thisPrice.price_data.prices.low + ", ";
+          output += " Avg: $" + thisPrice.price_data.prices.average + ", ";
+          output += " High: $" + thisPrice.price_data.prices.high + "\n";
         }
       } else {
         output = "Card not found!";
