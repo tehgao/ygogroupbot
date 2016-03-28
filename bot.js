@@ -29,7 +29,7 @@ function banlist() {
   var random_amt = Math.floor((Math.random() * 10) % 4);
   var random_reason = reasons[Math.floor((Math.random() * 10) % 4)];
 
-  var prediction = random_card.concat(" to ", random_amt, random_reason);
+  var prediction = random_card.concat(" to ", random_amt, " ", random_reason);
 
   return prediction;
 }
