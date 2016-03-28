@@ -70,6 +70,10 @@ function cardPrice(cardname) {
         output = "Card not found!";
       }
 
+      if(prices.data.length > 3) {
+        output += "(More...)";
+      }
+
       postMessage(output);
     });
   }
