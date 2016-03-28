@@ -1,4 +1,5 @@
 var HTTPS = require('https');
+var HTTP = require('http');
 var cool = require('cool-ascii-faces');
 
 var botID = process.env.BOT_ID;
@@ -18,6 +19,48 @@ function respond() {
     this.res.writeHead(200);
     this.res.end();
   }
+}
+
+function cardPrice(cardname) {
+  var jsonResponse;
+
+  var options = {
+    host: 'http://yugiohprices.com',
+    path: "/api/get_card_prices/".concat(cardname),
+  };
+
+  callback = function(response) {
+    var str = '';
+    response.on('data', function (chunk) {
+      str += chunk;
+    });
+    response.on('end', function () {
+      jsonResponse = str;
+    });
+  }
+
+  HTTP.request(options, callback).end();
+
+  var prices = JSON.parse(jsonResponse);
+
+  var output = "";
+
+  if(prices.status == "success") {
+    for(var i = 0; i < prices.data.length; i++) {
+      var thisPrice = prices.data[i];
+
+      output += cardname + "\n";
+      output += thisPrice.name;
+      output += " (" + thisPrice.print_tag + ") ";
+      output += " Low: $" + thisPrice.prices.low + ", ";
+      output += " Avg: $" + thisPrice.prices.average + ", ";
+      output += " High: $" + thisPrice.prices.high + "\n";
+    }
+  } else {
+    output = "Card not found!";
+  }
+
+  return output;
 }
 
 function banlist() {
@@ -43,9 +86,9 @@ function postMessage(text) {
   if(banlistRegex.test(text)) {
     botResponse = banlist();
   } else if (priceRegex.test(text)) {
-    botResponse = "Under construction";
+    botResponse = cardPrice(text.replace(/\/price/i, ""));
   } else {
-    botResponse = "I'm sorry, I can't do that.";
+    // botResponse = "I'm sorry, I can't do that.";
   }
 
   options = {
