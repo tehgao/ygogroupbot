@@ -31,15 +31,21 @@ function cardPrice(cardname) {
 
   callback = function(response) {
     var str = '';
+
     response.on('data', function (chunk) {
       str += chunk;
     });
+
     response.on('end', function () {
       jsonResponse = str;
     });
   }
 
-  HTTP.request(options, callback).end();
+  HTTP.get(options, callback).on('error', function(e) {
+    console.log("Error: ", e);
+  });
+
+  console.log(jsonResponse);
 
   var prices = JSON.parse(jsonResponse);
 
