@@ -37,7 +37,8 @@ function cardPrice(cardname) {
     });
 
     response.on('end', function () {
-      jsonResponse = str;
+      var resp = str;
+      response(resp);
     });
   }
 
@@ -47,7 +48,7 @@ function cardPrice(cardname) {
 
   console.log(jsonResponse);
 
-  var prices = JSON.parse(jsonResponse);
+  var prices = JSON.parse(response());
 
   var output = "";
 
