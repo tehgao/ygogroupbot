@@ -12,6 +12,7 @@ function respond() {
 
   banlistRegex = /^\/banlist/i;
   priceRegex = /^\/price/i;
+  potOfGreed = /^what does pot of greed do/i;
 
   if(request.text && requestRegex.test(request.text)) {
     this.res.writeHead(200);
@@ -22,6 +23,10 @@ function respond() {
     } else {
       // botResponse = "I'm sorry, I can't do that.";
     }
+    this.res.end();
+  } else if(request.text && potOfGreed.test(request.text)) {
+    this.res.writeHead(200);
+    postMessage("I ACTIVATE POT OF GREED! IT ALLOWS ME TO ADD TWO CARDS FROM MY DECK TO MY HAND.");
     this.res.end();
   } else {
     console.log("don't care");
