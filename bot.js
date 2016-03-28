@@ -8,11 +8,20 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]);
       // botRegex = /^\/cool guy$/;
 
-  requestRegex = /^\//i;
+  requestRegex = /^\//;
+
+  banlistRegex = /^\/banlist/i;
+  priceRegex = /^\/price/i;
 
   if(request.text && requestRegex.test(request.text)) {
     this.res.writeHead(200);
-    postMessage(request.text);
+    if(banlistRegex.test(request.text)) {
+      postMessage(banlist());
+    } else if (priceRegex.test(request.text)) {
+      cardPrice(request.text.replace(/\/price\w*/i, ""));
+    } else {
+      // botResponse = "I'm sorry, I can't do that.";
+    }
     this.res.end();
   } else {
     console.log("don't care");
@@ -22,8 +31,6 @@ function respond() {
 }
 
 function cardPrice(cardname) {
-  var jsonResponse;
-
   var options = {
     host: 'http://yugiohprices.com',
     path: "/api/get_card_prices/".concat(cardname),
@@ -38,36 +45,33 @@ function cardPrice(cardname) {
 
     response.on('end', function () {
       var resp = str;
-      response(resp);
+
+      var prices = JSON.parse(resp);
+
+      output = "";
+
+      if(prices.status == "success") {
+        for(var i = 0; i < prices.data.length; i++) {
+          var thisPrice = prices.data[i];
+
+          output += cardname + "\n";
+          output += thisPrice.name;
+          output += " (" + thisPrice.print_tag + ") ";
+          output += " Low: $" + thisPrice.prices.low + ", ";
+          output += " Avg: $" + thisPrice.prices.average + ", ";
+          output += " High: $" + thisPrice.prices.high + "\n";
+        }
+      } else {
+        output = "Card not found!";
+      }
+
+      postMessage(output);
     });
   }
 
   HTTP.get(options, callback).on('error', function(e) {
     console.log("Error: ", e);
   });
-
-  console.log(jsonResponse);
-
-  var prices = JSON.parse(response());
-
-  var output = "";
-
-  if(prices.status == "success") {
-    for(var i = 0; i < prices.data.length; i++) {
-      var thisPrice = prices.data[i];
-
-      output += cardname + "\n";
-      output += thisPrice.name;
-      output += " (" + thisPrice.print_tag + ") ";
-      output += " Low: $" + thisPrice.prices.low + ", ";
-      output += " Avg: $" + thisPrice.prices.average + ", ";
-      output += " High: $" + thisPrice.prices.high + "\n";
-    }
-  } else {
-    output = "Card not found!";
-  }
-
-  return output;
 }
 
 function banlist() {
@@ -87,16 +91,7 @@ function banlist() {
 function postMessage(text) {
   var botResponse, options, body, botReq;
 
-  banlistRegex = /\/banlist/i;
-  priceRegex = /\/price/i;
-
-  if(banlistRegex.test(text)) {
-    botResponse = banlist();
-  } else if (priceRegex.test(text)) {
-    botResponse = cardPrice(text.replace(/\/price/i, ""));
-  } else {
-    // botResponse = "I'm sorry, I can't do that.";
-  }
+  botResponse = text;
 
   options = {
     hostname: 'api.groupme.com',
