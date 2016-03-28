@@ -50,6 +50,8 @@ function cardPrice(cardname) {
 
       output = "";
 
+      console.log(str);
+
       if(prices.status == "success") {
         for(var i = 0; i < prices.data.length; i++) {
           var thisPrice = prices.data[i];
