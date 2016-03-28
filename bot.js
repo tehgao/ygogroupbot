@@ -4,14 +4,14 @@ var cool = require('cool-ascii-faces');
 var botID = process.env.BOT_ID;
 
 function respond() {
-  var request = JSON.parse(this.req.chunks[0]),
+  var request = JSON.parse(this.req.chunks[0]);
       // botRegex = /^\/cool guy$/;
 
-      banlistRegex = /^Banlist\?$/;
+  requestRegex = /^Hey bot/i;
 
-  if(request.text && banlistRegex.test(request.text)) {
+  if(request.text && requestRegex.test(request.text)) {
     this.res.writeHead(200);
-    postMessage();
+    postMessage(request.text);
     this.res.end();
   } else {
     console.log("don't care");
@@ -25,19 +25,28 @@ function banlist() {
   var reasons = ["because Konami.", "to balance out Hungry Burger OTK.", 
         "because it's inherently unfair.", "to sell the new Ice Barriers structure deck."];
 
-  var random_card = cards[Math.floor((Math.random() * 10) % 4)];
-  var random_amt = Math.floor((Math.random() * 10) % 4);
-  var random_reason = reasons[Math.floor((Math.random() * 10) % 4)];
+  var random_card = cards[Math.floor((Math.random() * 100) % 4)];
+  var random_amt = Math.floor((Math.random() * 100) % 4);
+  var random_reason = reasons[Math.floor((Math.random() * 100) % 4)];
 
   var prediction = random_card.concat(" to ", random_amt, " ", random_reason);
 
   return prediction;
 }
 
-function postMessage() {
+function postMessage(text) {
   var botResponse, options, body, botReq;
 
-  botResponse = banlist();
+  banlistRegex = /banlist/i;
+  priceRegex = /price/i;
+
+  if(banlistRegex.test(text)) {
+    botResponse = banlist();
+  } else if (priceRegex.test(text)) {
+    botResponse = "Under construction";
+  } else {
+    botResponse = "I'm sorry, I can't do that.";
+  }
 
   options = {
     hostname: 'api.groupme.com',
