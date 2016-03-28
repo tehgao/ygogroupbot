@@ -60,8 +60,8 @@ function cardPrice(cardname) {
           output += thisPrice.name;
           output += " (" + thisPrice.print_tag + ") ";
 
-          console.log(thisPrice.price_data.data.stringify());
-          // output += " Low: $" + thisPrice.price_data.data.prices.low + ", ";
+          console.log(thisPrice.price_data.data);
+          output += " Low: $" + thisPrice.price_data.data.prices.low + ", ";
           // output += " Avg: $" + thisPrice.price_data.data.prices.average + ", ";
           // output += " High: $" + thisPrice.price_data.data.prices.high + "\n";
 
