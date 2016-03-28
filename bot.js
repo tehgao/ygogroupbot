@@ -5,7 +5,9 @@ var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-      botRegex = /^\/cool guy$/;
+      // botRegex = /^\/cool guy$/;
+
+      banlistRegex = /^Banlist\?$/;
 
   if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
@@ -18,10 +20,24 @@ function respond() {
   }
 }
 
+function banlist() {
+  var cards = ["Pot of Greed", "Shapesnatch", "Thunder King Rai-Oh", "Sangan"];
+  var reasons = ["because Konami.", "to balance out Hungry Burger OTK.", 
+        "because it's inherently unfair.", "to sell the new Ice Barriers structure deck."];
+
+  var random_card = cards[Math.floor((Math.random() * 10) % 4)];
+  var random_amt = Math.floor((Math.random() * 10) % 4);
+  var random_reason = reasons[Math.floor((Math.random() * 10) % 4)];
+
+  var prediction = random_card.concat(" to ", random_amt, random_reason);
+
+  return prediction;
+}
+
 function postMessage() {
   var botResponse, options, body, botReq;
 
-  botResponse = cool();
+  botResponse = banlist();
 
   options = {
     hostname: 'api.groupme.com',
