@@ -7,7 +7,7 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]);
       // botRegex = /^\/cool guy$/;
 
-  requestRegex = /^Hey bot/i;
+  requestRegex = /^\//i;
 
   if(request.text && requestRegex.test(request.text)) {
     this.res.writeHead(200);
@@ -37,8 +37,8 @@ function banlist() {
 function postMessage(text) {
   var botResponse, options, body, botReq;
 
-  banlistRegex = /banlist/i;
-  priceRegex = /price/i;
+  banlistRegex = /\/banlist/i;
+  priceRegex = /\/price/i;
 
   if(banlistRegex.test(text)) {
     botResponse = banlist();
