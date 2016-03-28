@@ -9,7 +9,7 @@ function respond() {
 
       banlistRegex = /^Banlist\?$/;
 
-  if(request.text && botRegex.test(request.text)) {
+  if(request.text && banlistRegex.test(request.text)) {
     this.res.writeHead(200);
     postMessage();
     this.res.end();
