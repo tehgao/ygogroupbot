@@ -64,6 +64,8 @@ function cardPrice(cardname) {
           // output += " Low: $" + thisPrice.price_data.data.prices.low + ", ";
           // output += " Avg: $" + thisPrice.price_data.data.prices.average + ", ";
           // output += " High: $" + thisPrice.price_data.data.prices.high + "\n";
+
+          output += "\n";
         }
       } else {
         output = "Card not found!";
