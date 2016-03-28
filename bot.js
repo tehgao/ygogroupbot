@@ -32,7 +32,7 @@ function respond() {
 
 function cardPrice(cardname) {
   var options = {
-    host: 'http://yugiohprices.com',
+    host: 'yugiohprices.com',
     path: "/api/get_card_prices/".concat(cardname),
   };
 
