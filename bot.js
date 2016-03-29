@@ -49,7 +49,7 @@ function cardPrice(cardname) {
 function cardPriceByPrintTag(cardname) {
  var options = {
     host: 'yugiohprices.com',
-    path: "/api/price_for_print_tag/".concat(cardname.replace(/\w/,"")),
+    path: "/api/price_for_print_tag/".concat(cardname.replace(/[^a-zA-Z0-9-]/,"")),
   };
 
   callback = function(response) {
