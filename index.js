@@ -1,10 +1,9 @@
-var http, director, cool, bot, router, server, port, path;
+var http, director, cool, bot, router, server, port;
 
 http        = require('http');
 director    = require('director');
 cool        = require('cool-ascii-faces');
 bot         = require('./bot.js');
-path        = require('path');
 
 router = new director.http.Router({
   '/' : {
@@ -24,8 +23,6 @@ server = http.createServer(function (req, res) {
     res.end(err.message);
   });
 });
-
-server.use("/css",express.static(__dirname + "/css"));
 
 port = Number(process.env.PORT || 5000);
 server.listen(port);
