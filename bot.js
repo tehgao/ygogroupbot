@@ -234,7 +234,7 @@ function deckMix() {
   var deck = [];
 
   while(deck.length < numArchetypes) {
-    var thisArch = archetypes[Math.floor(Math.random() * archetypes.length())];
+    var thisArch = archetypes[Math.floor(Math.random() * archetypes.length];
     if(!listContains(deck, thisArch)) {
       deck.push(thisArch);
     }
@@ -243,7 +243,7 @@ function deckMix() {
   var deckText = "You should play ";
 
   if((Math.random() * 100) % 3) {
-    deckText += prefix[Math.floor(Math.random() * prefix.length())] + " ";
+    deckText += prefix[Math.floor(Math.random() * prefix.length] + " ";
   }
 
   for(var i = 0; i < deck.length; i++) {
@@ -251,7 +251,7 @@ function deckMix() {
   }
 
   if((Math.random() * 100) % 3) {
-    deckText += suffix[Math.floor(Math.random() * suffix.length())];
+    deckText += suffix[Math.floor(Math.random() * suffix.length];
   }
 
   return deckText;
