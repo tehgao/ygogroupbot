@@ -127,10 +127,13 @@ function cardPriceByName(cardname) {
           output += thisPrice.print_tag + ": ";
 
           // console.log(thisPrice.price_data.data);
-          output += " Low: $" + thisPrice.price_data.data.prices.low + ", ";
-          output += " Avg: $" + thisPrice.price_data.data.prices.average + ", ";
-          output += " High: $" + thisPrice.price_data.data.prices.high;
-
+          if(thisPrice.priceData.status == "success") {
+            output += "Low: $" + thisPrice.price_data.data.prices.low + ", ";
+            output += " Avg: $" + thisPrice.price_data.data.prices.average + ", ";
+            output += " High: $" + thisPrice.price_data.data.prices.high;
+          } else {
+            output += "Could not find prices!";
+          }
           output += "\n";
         }
       } else {
