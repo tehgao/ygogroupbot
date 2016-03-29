@@ -197,7 +197,7 @@ function banlist() {
 function deckMix() {
   var archetypes = [
     "Ojama",
-    "Ice Barrier"
+    "Ice Barrier",
     "Deskbot",
     "Fire Fist",
     "Geargia",
