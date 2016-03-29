@@ -283,7 +283,7 @@ function deckMix() {
   var deckText = thisPhrase[0];
 
   if((Math.floor(Math.random() * 100) % 3) == 0) {
-    deckText += prefix[Math.floor(Math.random() * prefix.length)] + " ";
+    deckText += " " + prefix[Math.floor(Math.random() * prefix.length)];
   }
 
   for(var i = 0; i < deck.length; i++) {
