@@ -79,7 +79,7 @@ function cardPriceByPrintTag(cardname) {
 
         output += "\n";
       } else {
-        output = "Card not found!";
+        output = "Print Tag not found!";
       }
 
       postMessage(output);
