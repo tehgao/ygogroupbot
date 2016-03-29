@@ -29,14 +29,6 @@ server.listen(port);
 
 function ping() {
   this.res.writeHead(200);
-  this.res.end("<html>
-<head>
-  <title>Banlist Predictions</title>
-</head>
-<body>
-  <p align="center">
-    <h1>" + bot.banlist() + "</h1>
-  </p>
-</body>
-</html>");
+  this.res.end("<html><head><title>Banlist Predictions</title></head><body><p align="center"><h1>" 
+    + bot.banlist() + "</h1></p></body></html>");
 }
