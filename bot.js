@@ -213,7 +213,9 @@ function deckMix() {
     "Fluffal",
     "Atlantean",
     "BLS",
-    "Lightsworn"
+    "Lightsworn",
+    "Airblade",
+    "Chaos"
   ];
 
   var prefix = [
@@ -241,6 +243,10 @@ function deckMix() {
   }
 
   var deckText = "You should play ";
+
+  if((Math.random() * 100) % 10) {
+    deckText = "Jeff Jones just topped an ARG with ";
+  }
 
   if((Math.random() * 100) % 3) {
     deckText += prefix[Math.floor(Math.random() * prefix.length)] + " ";
