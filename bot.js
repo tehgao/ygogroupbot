@@ -145,9 +145,41 @@ function cardPriceByName(cardname) {
 }
 
 function banlist() {
-  var cards = ["Pot of Greed", "Shapesnatch", "Thunder King Rai-Oh", "Sangan"];
-  var reasons = ["because Konami.", "to balance out Hungry Burger OTK.", 
-        "because it's inherently unfair.", "to sell the new Ice Barriers structure deck."];
+  var cards = [
+    "Pot of Greed", 
+    "Shapesnatch", 
+    "Thunder King Rai-Oh", 
+    "Sangan",
+    "Every card printed in Starter Deck Joey",
+    "Jerry Beans Man",
+    "Deskbot 009",
+    "DANKO SWAGGA",
+    "MY PERFECTLY ULTIMATE GREAT MOTH",
+    "Man-Eater Bug",
+    "Ignister",
+    "Trishula",
+    "Ojama Blue",
+    "Raigeki",
+    "Solemn Strike"
+  ];
+  var reasons = [
+    "because Konami", 
+    "to balance out Hungry Burger OTK", 
+    "because it's inherently unfair", 
+    "to sell the new Ice Barriers structure deck",
+    "because of the potential interactions with Jerry Beans Man",
+    "because Konami learned their lesson with Dragon Rulers",
+    "because it's stupid OP",
+    "because it was degenerate and allowed too many FTKs",
+    "because Jeff Jones topped with it",
+    "because it just got reprinted",
+    "because Konami hates fun",
+    "to push the Pendulum agenda",
+    "because.",
+    "in case Konami wants to unban the dragon rulers",
+    "for \"balance\"",
+    "because $$$"
+  ];
 
   var random_card = cards[Math.floor((Math.random() * 100) % 4)];
   var random_amt = Math.floor((Math.random() * 100) % 4);
