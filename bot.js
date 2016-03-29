@@ -309,3 +309,4 @@ function postMessage(text) {
 
 
 exports.respond = respond;
+exports.banlist = banlist;
