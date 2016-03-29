@@ -14,6 +14,7 @@ function respond() {
   var priceRegex = /^\/price/i;
   var deckRegex = /^\/deck/i;
   var potOfGreed = /^what does pot of greed do/i;
+  var memeRegex = /^\/meme/i;
 
   if(request.text && requestRegex.test(request.text)) {
     this.res.writeHead(200);
@@ -23,7 +24,9 @@ function respond() {
       cardPrice(request.text.replace(/\/price\w*/i, ""));
     } else if(deckRegex.test(request.text)) {
       postMessage(deckMix());
-    } else {
+    } else if(request.test(request.text)) {
+		postMessage(dankMeme());
+	}else {
       // botResponse = "I'm sorry, I can't do that.";
     }
     this.res.end();
@@ -260,6 +263,31 @@ function deckMix() {
   deckText += suffix[Math.floor(Math.random() * suffix.length)];
 
   return deckText;
+}
+
+function dankMeme(){
+	var meme_prefix = [
+		"Gnome Child",
+		"DESKMEN",
+		"Jeff Jones",
+		"Upstart Hoban",
+		"Noah Greene"
+	];
+	
+	var meme_suffix = [
+		"will enlighten you.",
+		"has topped yet another ARG event.",
+		"went x-0 with Magical Explosion FTK.",
+		"went +10 turn one.",
+		"is literally cancer."
+	];
+	
+	var random_prefix = meme_prefix[Math.floor(Math.random() * meme_prefix.length)];
+	var random_suffix = meme_suffix[Math.floor(Math.random() * meme_suffix.length)];
+	
+	var dank_meme = meme_prefix.concat(" ", meme_suffix);
+	
+	return dank_meme;
 }
 
 function listContains(list, string) {
