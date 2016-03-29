@@ -12,6 +12,7 @@ function respond() {
 
   var banlistRegex = /^\/banlist/i;
   var priceRegex = /^\/price/i;
+  var deckRegex = /^\/deck/i;
   var potOfGreed = /^what does pot of greed do/i;
 
   if(request.text && requestRegex.test(request.text)) {
@@ -20,6 +21,8 @@ function respond() {
       postMessage(banlist());
     } else if (priceRegex.test(request.text)) {
       cardPrice(request.text.replace(/\/price\w*/i, ""));
+    } else if(deckRegex.test(request.text)) {
+      postMessage(deckMix());
     } else {
       // botResponse = "I'm sorry, I can't do that.";
     }
@@ -178,7 +181,8 @@ function banlist() {
     "because.",
     "in case Konami wants to unban the dragon rulers",
     "for \"balance\"",
-    "because $$$"
+    "because $$$",
+    "to balance the secondary market"
   ];
 
   var random_card = cards[Math.floor(Math.random()*cards.length)];
@@ -188,6 +192,79 @@ function banlist() {
   var prediction = random_card.concat(" to ", random_amt, " ", random_reason);
 
   return prediction;
+}
+
+function deckMix() {
+  var archetypes = [
+    "Ojama",
+    "Ice Barrier"
+    "Deskbot",
+    "Fire Fist",
+    "Geargia",
+    "Stick Chair",
+    "Traptrix",
+    "Artifact",
+    "Shaddoll",
+    "HERO",
+    "Nekroz",
+    "Red-Eyes",
+    "Hieratic",
+    "Dark World",
+    "Fluffal",
+    "Atlantean",
+    "BLS",
+    "Lightsworn"
+  ];
+
+  var prefix = [
+    "Anti-Meta",
+    "Rank-Up"
+  ];
+
+  var suffix = [
+    "Turbo",
+    "Beatdown",
+    "Synchro Spam",
+    "OTK",
+    "Control"
+  ];
+
+  var numArchetypes = 2 + Math.floor(Math.random() * 3);
+
+  var deck = [];
+
+  while(deck.length < numArchetypes) {
+    var thisArch = archetypes[Math.floor(Math.random() * archetypes.length())];
+    if(!listContains(deck, thisArch)) {
+      deck.push(thisArch);
+    }
+  }
+
+  var deckText = "You should play ";
+
+  if((Math.random() * 100) % 3) {
+    deckText += prefix[Math.floor(Math.random() * prefix.length())] + " ";
+  }
+
+  for(var i = 0; i < deck.length; i++) {
+    deckText += " " + deck[i] + " ";
+  }
+
+  if((Math.random() * 100) % 3) {
+    deckText += suffix[Math.floor(Math.random() * suffix.length())];
+  }
+
+  return deckText;
+}
+
+function listContains(list, string) {
+  for(var i = 1; i < list.length; i++) {
+    if(list[i] == string) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function postMessage(text) {
