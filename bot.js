@@ -244,11 +244,11 @@ function deckMix() {
 
   var deckText = "You should play ";
 
-  if(((Math.random() * 100) % 7) == 0) {
+  if(Math.floor((Math.random() * 100) % 7) == 0) {
     deckText = "Jeff Jones just topped an ARG with ";
   }
 
-  if(((Math.random() * 100) % 3) == 0) {
+  if(Math.floor((Math.random() * 100) % 3) == 0) {
     deckText += prefix[Math.floor(Math.random() * prefix.length)] + " ";
   }
 
@@ -256,9 +256,7 @@ function deckMix() {
     deckText += " " + deck[i] + " ";
   }
 
-  if(((Math.random() * 100) % 3) == 0) {
-    deckText += suffix[Math.floor(Math.random() * suffix.length)];
-  }
+  deckText += suffix[Math.floor(Math.random() * suffix.length)];
 
   return deckText;
 }
