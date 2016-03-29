@@ -8,11 +8,11 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]);
       // botRegex = /^\/cool guy$/;
 
-  requestRegex = /^\//;
+  var requestRegex = /^\//;
 
-  banlistRegex = /^\/banlist/i;
-  priceRegex = /^\/price/i;
-  potOfGreed = /^what does pot of greed do/i;
+  var banlistRegex = /^\/banlist/i;
+  var priceRegex = /^\/price/i;
+  var potOfGreed = /^what does pot of greed do/i;
 
   if(request.text && requestRegex.test(request.text)) {
     this.res.writeHead(200);
@@ -36,6 +36,62 @@ function respond() {
 }
 
 function cardPrice(cardname) {
+  // regex to match strings formatted like print tags, i.e. SDK-001, CROS-EN050
+  var printTagRegex = /[0-9a-zA-Z]{3,4}-([a-zA-Z]{2})?\d+/;
+
+  if(printTagRegex.test(cardname)) {
+    cardPriceByPrintTag(cardname);
+  } else {
+    cardPriceByName(cardname);
+  }
+}
+
+function cardPriceByPrintTag(cardname) {
+ var options = {
+    host: 'yugiohprices.com',
+    path: "/api/price_for_print_tag/".concat(cardname),
+  };
+
+  callback = function(response) {
+    var str = '';
+
+    response.on('data', function (chunk) {
+      str += chunk;
+    });
+
+    response.on('end', function () {
+      var resp = str;
+
+      var prices = JSON.parse(resp);
+
+      output = "";
+
+      console.log(str);
+
+      if(prices.status == "success") {
+        output += prices.data.name + "\n";
+
+        var thisPrice = prices.data.price_data;
+        output += thisPrice.rarity + "\n";
+        output += " Low: $" + thisPrice.price_data.data.prices.low + ", ";
+        output += " Avg: $" + thisPrice.price_data.data.prices.average + ", ";
+        output += " High: $" + thisPrice.price_data.data.prices.high;
+
+        output += "\n";
+      } else {
+        output = "Card not found!";
+      }
+
+      postMessage(output);
+    });
+  }
+
+  HTTP.get(options, callback).on('error', function(e) {
+    console.log("Error: ", e);
+  });
+}
+
+function cardPriceByName(cardname) {
   var options = {
     host: 'yugiohprices.com',
     path: "/api/get_card_prices/".concat(cardname),
