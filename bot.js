@@ -163,7 +163,8 @@ function banlist() {
     "Trishula",
     "Ojama Blue",
     "Raigeki",
-    "Solemn Strike"
+    "Solemn Strike",
+    "Literally every single card ever"
   ];
   var reasons = [
     "because Konami", 
