@@ -244,11 +244,11 @@ function deckMix() {
 
   var deckText = "You should play ";
 
-  if(Math.floor((Math.random() * 100) % 7) == 0) {
+  if((Math.floor(Math.random() * 100) % 7) == 0) {
     deckText = "Jeff Jones just topped an ARG with ";
   }
 
-  if(Math.floor((Math.random() * 100) % 3) == 0) {
+  if((Math.floor(Math.random() * 100) % 3) == 0) {
     deckText += prefix[Math.floor(Math.random() * prefix.length)] + " ";
   }
 
