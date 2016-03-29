@@ -127,7 +127,7 @@ function cardPriceByName(cardname) {
           output += thisPrice.print_tag + ": ";
 
           // console.log(thisPrice.price_data.data);
-          if(thisPrice.priceData.status == "success") {
+          if(thisPrice.price_data.status == "success") {
             output += "Low: $" + thisPrice.price_data.data.prices.low + ", ";
             output += " Avg: $" + thisPrice.price_data.data.prices.average + ", ";
             output += " High: $" + thisPrice.price_data.data.prices.high;
