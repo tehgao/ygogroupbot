@@ -24,7 +24,7 @@ function respond() {
       cardPrice(request.text.replace(/\/price\w*/i, ""));
     } else if(deckRegex.test(request.text)) {
       postMessage(deckMix());
-    } else if(request.test(request.text)) {
+    } else if(memeRegex.test(request.text)) {
 		postMessage(dankMeme());
 	}else {
       // botResponse = "I'm sorry, I can't do that.";
