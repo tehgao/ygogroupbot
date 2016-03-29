@@ -25,8 +25,8 @@ function respond() {
     } else if(deckRegex.test(request.text)) {
       postMessage(deckMix());
     } else if(memeRegex.test(request.text)) {
-		postMessage(dankMeme());
-	}else {
+		  postMessage(dankMeme());
+    } else {
       // botResponse = "I'm sorry, I can't do that.";
     }
     this.res.end();
@@ -265,7 +265,7 @@ function deckMix() {
   return deckText;
 }
 
-function dankMeme(){
+function dankMeme() {
 	var meme_prefix = [
 		"Gnome Child",
 		"DESKMEN",
