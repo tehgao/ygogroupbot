@@ -235,12 +235,16 @@ function deckMix() {
     "BLS",
     "Lightsworn",
     "Airblade",
-    "Chaos"
+    "Chaos",
+    "Exodia",
+    "Monarch",
+    "Explosion"
   ];
 
   var prefix = [
     "Anti-Meta",
-    "Rank-Up"
+    "Rank-Up",
+    "Budget"
   ];
 
   var suffix = [
@@ -248,7 +252,19 @@ function deckMix() {
     "Beatdown",
     "Synchro Spam",
     "OTK",
+    "FTK",
     "Control"
+  ];
+
+  var phrases = [
+    ["Jeff Jones just topped an ARG with", ""],
+    ["[R/F] my", "deck for competitive locals/regionals/YCS/Nats/Worlds"],
+    ["I really think", "is gonna be good next format."],
+    ["Hey, Spoofy here, doing a deck profile on", ""],
+    ["", "is going to be good post-BOSH"],
+    ["I was on tilt after I got knocked around by Ojamas, but getting 2-0'd by", 
+      "made me sell my deck"],
+    ["I'm totally playing", "next format."]
   ];
 
   var numArchetypes = 2 + Math.floor(Math.random() * 3);
@@ -262,21 +278,19 @@ function deckMix() {
     }
   }
 
-  var deckText = "You should play ";
+  var thisPhrase = phrases[Math.floor(Math.random() * phrases.length)];
 
-  if((Math.floor(Math.random() * 100) % 7) == 0) {
-    deckText = "Jeff Jones just topped an ARG with ";
-  }
+  var deckText = thisPhrase[0];
 
   if((Math.floor(Math.random() * 100) % 3) == 0) {
     deckText += prefix[Math.floor(Math.random() * prefix.length)] + " ";
   }
 
   for(var i = 0; i < deck.length; i++) {
-    deckText += " " + deck[i] + " ";
+    deckText += " " + deck[i];
   }
 
-  deckText += suffix[Math.floor(Math.random() * suffix.length)];
+  deckText += " " + suffix[Math.floor(Math.random() * suffix.length)] + " " + thisPhrase[1];
 
   return deckText;
 }
