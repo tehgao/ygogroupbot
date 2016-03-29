@@ -181,9 +181,9 @@ function banlist() {
     "because $$$"
   ];
 
-  var random_card = cards[Math.floor((Math.random() * 100) % cards.length];
+  var random_card = cards[Math.floor(Math.random()*cards.length)];
   var random_amt = Math.floor((Math.random() * 100) % 4);
-  var random_reason = reasons[Math.floor((Math.random() * 100) % reasons.length];
+  var random_reason = reasons[Math.floor(Math.random()*reasons.length)];
 
   var prediction = random_card.concat(" to ", random_amt, " ", random_reason);
 
