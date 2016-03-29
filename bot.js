@@ -285,7 +285,7 @@ function dankMeme() {
 	var random_prefix = meme_prefix[Math.floor(Math.random() * meme_prefix.length)];
 	var random_suffix = meme_suffix[Math.floor(Math.random() * meme_suffix.length)];
 	
-	var dank_meme = meme_prefix.concat(" ", meme_suffix);
+	var dank_meme = random_prefix.concat(" ", random_suffix);
 	
 	return dank_meme;
 }
