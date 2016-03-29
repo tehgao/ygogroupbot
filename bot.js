@@ -167,6 +167,13 @@ function banlist() {
     "Ojama Blue",
     "Raigeki",
     "Solemn Strike",
+    "Exciton",
+    "Elemental HERO Stratos",
+    "Construct",
+    "Ulti-Cannahawk",
+    "Dark Law",
+    "Gate Guardian",
+    "Every card, except \"Frog the Jam\"",
     "Literally every single card ever"
   ];
   var reasons = [
@@ -186,7 +193,13 @@ function banlist() {
     "in case Konami wants to unban the dragon rulers",
     "for \"balance\"",
     "because $$$",
-    "to balance the secondary market"
+    "to balance the secondary market",
+    "because it literally gave people cancer",
+    "so the player base would stop complaining",
+    "because #YOLO",
+    "because why not?",
+    "to encourage format diversity",
+    "to balance the meta"
   ];
 
   var random_card = cards[Math.floor(Math.random()*cards.length)];
