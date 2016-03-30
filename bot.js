@@ -79,9 +79,9 @@ function cardPriceByPrintTag(cardname) {
 
         var thisPrice = prices.data.price_data;
         output += thisPrice.rarity + "\n";
-        output += " Low: $" + thisPrice.price_data.data.prices.low + ", ";
-        output += " Avg: $" + thisPrice.price_data.data.prices.average + ", ";
-        output += " High: $" + thisPrice.price_data.data.prices.high;
+        output += " Low: $" + thisPrice.price_data.data.prices.low.toFixed(2) + ", ";
+        output += " Avg: $" + thisPrice.price_data.data.prices.average.toFixed(2) + ", ";
+        output += " High: $" + thisPrice.price_data.data.prices.high.toFixed(2);
 
         output += "\n";
       } else {
@@ -128,9 +128,9 @@ function cardPriceByName(cardname) {
 
           // console.log(thisPrice.price_data.data);
           if(thisPrice.price_data.status == "success") {
-            output += "Low: $" + thisPrice.price_data.data.prices.low + ", ";
-            output += " Avg: $" + thisPrice.price_data.data.prices.average + ", ";
-            output += " High: $" + thisPrice.price_data.data.prices.high;
+            output += "Low: $" + thisPrice.price_data.data.prices.low.toFixed(2) + ", ";
+            output += " Avg: $" + thisPrice.price_data.data.prices.average.toFixed(2) + ", ";
+            output += " High: $" + thisPrice.price_data.data.prices.high.toFixed(2);
           } else {
             output += "Could not find prices!";
           }
