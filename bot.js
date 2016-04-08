@@ -23,13 +23,13 @@ function respond() {
     if(banlistRegex.test(request.text)) {
       postMessage(banlist());
     } else if (priceRegex.test(request.text)) {
-      cardPrice(request.text.replace(/\/price\w*/i, ""));
+      cardPrice(request.text.replace(/\/price */i, ""));
     } else if(deckRegex.test(request.text)) {
       postMessage(deckMix());
     } else if(memeRegex.test(request.text)) {
 		  postMessage(dankMeme());
     } else if(infoRegex.test(request.text)) {
-      cardInfo(request.text.replace(/\/card\w*/i, ""));
+      cardInfo(request.text.replace(/\/card */i, ""));
     } else {
       // botResponse = "I'm sorry, I can't do that.";
     }
