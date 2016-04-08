@@ -1,6 +1,7 @@
 var HTTPS = require('https');
 var HTTP = require('http');
 var cool = require('cool-ascii-faces');
+var fs = require('fs');
 
 var botID = process.env.BOT_ID;
 
@@ -15,6 +16,7 @@ function respond() {
   var deckRegex = /^\/deck/i;
   var potOfGreed = /^what does pot of greed do/i;
   var memeRegex = /^\/meme/i;
+  var imageRegex = /^card/i;
 
   if(request.text && requestRegex.test(request.text)) {
     this.res.writeHead(200);
@@ -26,6 +28,8 @@ function respond() {
       postMessage(deckMix());
     } else if(memeRegex.test(request.text)) {
 		  postMessage(dankMeme());
+    } else if(imageRegex.test(request.text)) {
+      cardImage(request.text.replace(/\/card\w*/i, ""));
     } else {
       // botResponse = "I'm sorry, I can't do that.";
     }
@@ -151,6 +155,26 @@ function cardPriceByName(cardname) {
 
   HTTP.get(options, callback).on('error', function(e) {
     console.log("Error: ", e);
+  });
+}
+
+function cardImage(cardName) {
+
+  var download = function(url, dest, cb) {
+    var file = fs.createWriteStream(dest);
+    var request = http.get(url, function(response) {
+      response.pipe(file);
+      file.on('finish', function() {
+        file.close(cb);  // close() is async, call cb after close completes.
+      });
+    }).on('error', function(err) { // Handle errors
+      fs.unlink(dest); // Delete the file async. (But we don't check the result)
+      if (cb) cb(err.message);
+    });
+  };
+
+  download("http://static.api3.studiobebop.net/ygo_data/card_images/Monster_Reborn.jpg", "picture.jpg", function() {
+    postMessage("Great success!");
   });
 }
 
@@ -362,6 +386,47 @@ function postMessage(text) {
   });
   botReq.on('timeout', function(err) {
     console.log('timeout posting message '  + JSON.stringify(err));
+  });
+  botReq.end(JSON.stringify(body));
+}
+
+function postImage(text, url) {
+  var botResponse, options, body, botReq;
+
+  botResponse = text;
+
+  options = {
+    hostname: 'api.groupme.com',
+    path: '/v3/bots/post',
+    method: 'POST'
+  };
+
+  image = {
+    "type" : "image",
+    "url" : url
+  }
+
+  body = {
+    "bot_id" : botID,
+    "text" : botResponse
+    "attachments" : image;
+  };
+
+  console.log('sending image ' + botResponse + ' to ' + botID);
+
+  botReq = HTTPS.request(options, function(res) {
+      if(res.statusCode == 202) {
+        //neat
+      } else {
+        console.log('rejecting bad status code ' + res.statusCode);
+      }
+  });
+
+  botReq.on('error', function(err) {
+    console.log('error posting image '  + JSON.stringify(err));
+  });
+  botReq.on('timeout', function(err) {
+    console.log('timeout posting image '  + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
 }
