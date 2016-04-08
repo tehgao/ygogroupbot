@@ -160,6 +160,8 @@ function cardPriceByName(cardname) {
 
 function cardInfo(cardName) {
 
+  console.log(toTitleCase(cardName));
+
   var options = {
     host: 'yugiohprices.com',
     path: "/api/card_data/".concat(toTitleCase(cardName)),
