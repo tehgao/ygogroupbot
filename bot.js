@@ -162,7 +162,7 @@ function cardInfo(cardName) {
 
   var options = {
     host: 'yugiohprices.com',
-    path: "/api/card_data/".concat(toTitleCase(cardname)),
+    path: "/api/card_data/".concat(toTitleCase(cardName)),
   };
 
   callback = function(response) {
