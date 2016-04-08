@@ -408,8 +408,8 @@ function postImage(text, url) {
 
   body = {
     "bot_id" : botID,
-    "text" : botResponse
-    "attachments" : image;
+    "text" : botResponse,
+    "attachments" : image
   };
 
   console.log('sending image ' + botResponse + ' to ' + botID);
