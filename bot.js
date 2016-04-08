@@ -16,7 +16,7 @@ function respond() {
   var deckRegex = /^\/deck/i;
   var potOfGreed = /^what does pot of greed do/i;
   var memeRegex = /^\/meme/i;
-  var imageRegex = /^\/card/i;
+  var infoRegex = /^\/card/i;
 
   if(request.text && requestRegex.test(request.text)) {
     this.res.writeHead(200);
@@ -28,8 +28,8 @@ function respond() {
       postMessage(deckMix());
     } else if(memeRegex.test(request.text)) {
 		  postMessage(dankMeme());
-    } else if(imageRegex.test(request.text)) {
-      cardImage(request.text.replace(/\/card\w*/i, ""));
+    } else if(infoRegex.test(request.text)) {
+      cardInfo(request.text.replace(/\/card\w*/i, ""));
     } else {
       // botResponse = "I'm sorry, I can't do that.";
     }
@@ -158,23 +158,59 @@ function cardPriceByName(cardname) {
   });
 }
 
-function cardImage(cardName) {
+function cardInfo(cardName) {
 
-  var download = function(url, dest, cb) {
-    var file = fs.createWriteStream(dest);
-    var request = HTTP.get(url, function(response) {
-      response.pipe(file);
-      file.on('finish', function() {
-        file.close(cb);  // close() is async, call cb after close completes.
-      });
-    }).on('error', function(err) { // Handle errors
-      fs.unlink(dest); // Delete the file async. (But we don't check the result)
-      if (cb) cb(err.message);
-    });
+  var options = {
+    host: 'yugiohprices.com',
+    path: "/api/card_data/".concat(toTitleCase(cardname)),
   };
 
-  download("http://static.api3.studiobebop.net/ygo_data/card_images/Monster_Reborn.jpg", "picture.jpg", function() {
-    postMessage("Great success!");
+  callback = function(response) {
+    var str = '';
+
+    response.on('data', function (chunk) {
+      str += chunk;
+    });
+
+    response.on('end', function () {
+      var resp = str;
+
+      var info = JSON.parse(resp);
+
+      output = "";
+
+      console.log(str);
+
+      if(info.status == "success") {
+        var data = info.data;
+
+        output += data.name + "\n";
+        if(data.card_type == "monster") {
+          output += "Level " + data.level + " " + toTitleCase(data.family) + "\n";
+          output += data.type + "\n";
+        } else {
+          if(!!data.property) {
+            output += data.property + " ";
+          }
+
+          output += toTitleCase(data.card_type) + " Card\n";
+        }
+
+        output += data.text + "\n";
+
+        if(data.card_type == "monster") {
+          output += "ATK/" + data.atk + " DEF/" + data.def + "\n";
+        }
+      } else {
+        output = "Card not found!";
+      }
+
+      postMessage(output);
+    });
+  }
+
+  HTTP.get(options, callback).on('error', function(e) {
+    console.log("Error: ", e);
   });
 }
 
@@ -390,47 +426,10 @@ function postMessage(text) {
   botReq.end(JSON.stringify(body));
 }
 
-function postImage(text, url) {
-  var botResponse, options, body, botReq, image;
-
-  botResponse = text;
-
-  options = {
-    hostname: 'api.groupme.com',
-    path: '/v3/bots/post',
-    method: 'POST'
-  };
-
-  image = {
-    "type" : "image",
-    "url" : url
-  }
-
-  body = {
-    "bot_id" : botID,
-    "text" : botResponse,
-    "attachments" : image
-  };
-
-  console.log('sending image ' + botResponse + ' to ' + botID);
-
-  botReq = HTTPS.request(options, function(res) {
-      if(res.statusCode == 202) {
-        //neat
-      } else {
-        console.log('rejecting bad status code ' + res.statusCode);
-      }
-  });
-
-  botReq.on('error', function(err) {
-    console.log('error posting image '  + JSON.stringify(err));
-  });
-  botReq.on('timeout', function(err) {
-    console.log('timeout posting image '  + JSON.stringify(err));
-  });
-  botReq.end(JSON.stringify(body));
+// stackoverflow ftw
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
-
 
 exports.respond = respond;
 exports.banlist = banlist;
