@@ -391,7 +391,7 @@ function postMessage(text) {
 }
 
 function postImage(text, url) {
-  var botResponse, options, body, botReq;
+  var botResponse, options, body, botReq, image;
 
   botResponse = text;
 
