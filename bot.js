@@ -1,6 +1,7 @@
 var HTTPS = require('https');
 var HTTP = require('http');
 var cool = require('cool-ascii-faces');
+var fs = require('fs');
 
 var botID = process.env.BOT_ID;
 
@@ -15,17 +16,20 @@ function respond() {
   var deckRegex = /^\/deck/i;
   var potOfGreed = /^what does pot of greed do/i;
   var memeRegex = /^\/meme/i;
+  var infoRegex = /^\/card/i;
 
   if(request.text && requestRegex.test(request.text)) {
     this.res.writeHead(200);
     if(banlistRegex.test(request.text)) {
       postMessage(banlist());
     } else if (priceRegex.test(request.text)) {
-      cardPrice(request.text.replace(/\/price\w*/i, ""));
+      cardPrice(request.text.replace(/\/price */i, ""));
     } else if(deckRegex.test(request.text)) {
       postMessage(deckMix());
     } else if(memeRegex.test(request.text)) {
 		  postMessage(dankMeme());
+    } else if(infoRegex.test(request.text)) {
+      cardInfo(request.text.replace(/\/card */i, ""));
     } else {
       // botResponse = "I'm sorry, I can't do that.";
     }
@@ -143,6 +147,64 @@ function cardPriceByName(cardname) {
 
       if(prices.data.length > 3) {
         output += "(More...)";
+      }
+
+      postMessage(output);
+    });
+  }
+
+  HTTP.get(options, callback).on('error', function(e) {
+    console.log("Error: ", e);
+  });
+}
+
+function cardInfo(cardName) {
+
+  console.log(toTitleCase(cardName));
+
+  var options = {
+    host: 'yugiohprices.com',
+    path: "/api/card_data/".concat(toTitleCase(cardName)),
+  };
+
+  callback = function(response) {
+    var str = '';
+
+    response.on('data', function (chunk) {
+      str += chunk;
+    });
+
+    response.on('end', function () {
+      var resp = str;
+
+      var info = JSON.parse(resp);
+
+      output = "";
+
+      console.log(str);
+
+      if(info.status == "success") {
+        var data = info.data;
+
+        output += data.name + "\n";
+        if(data.card_type == "monster") {
+          output += "Level " + data.level + " " + toTitleCase(data.family) + "\n";
+          output += data.type + "\n";
+        } else {
+          if(!!data.property) {
+            output += data.property + " ";
+          }
+
+          output += toTitleCase(data.card_type) + " Card\n";
+        }
+
+        output += data.text + "\n";
+
+        if(data.card_type == "monster") {
+          output += "ATK/" + data.atk + " DEF/" + data.def + "\n";
+        }
+      } else {
+        output = "Card not found!";
       }
 
       postMessage(output);
@@ -366,6 +428,10 @@ function postMessage(text) {
   botReq.end(JSON.stringify(body));
 }
 
+// stackoverflow ftw
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
 
 exports.respond = respond;
 exports.banlist = banlist;
