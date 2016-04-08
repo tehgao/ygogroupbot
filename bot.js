@@ -16,7 +16,7 @@ function respond() {
   var deckRegex = /^\/deck/i;
   var potOfGreed = /^what does pot of greed do/i;
   var memeRegex = /^\/meme/i;
-  var imageRegex = /^card/i;
+  var imageRegex = /^\/card/i;
 
   if(request.text && requestRegex.test(request.text)) {
     this.res.writeHead(200);
