@@ -159,12 +159,9 @@ function cardPriceByName(cardname) {
 }
 
 function cardInfo(cardName) {
-
-  console.log(toTitleCase(cardName));
-
   var options = {
     host: 'yugiohprices.com',
-    path: "/api/card_data/".concat(toTitleCase(cardName)),
+    path: "/api/card_data/".concat(cardName),
   };
 
   callback = function(response) {
@@ -188,7 +185,7 @@ function cardInfo(cardName) {
 
         output += data.name + "\n";
         if(data.card_type == "monster") {
-          output += "Level " + data.level + " " + toTitleCase(data.family) + "\n";
+          output += "Level/Rank " + data.level + " " + toTitleCase(data.family) + "\n";
           output += data.type + "\n";
         } else {
           if(!!data.property) {
