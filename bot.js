@@ -284,7 +284,7 @@ function banlist() {
     "Every card, except \"Frog the Jam\"",
     "Literally every single card ever",
     "Ratpier",
-    "Pot of Gre-- I mean Desires".
+    "Pot of Gre-- I mean Desires",
     "Maxx C",
     "Heavy Storm",
     "Painful Choice",
