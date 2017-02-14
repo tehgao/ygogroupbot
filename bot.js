@@ -53,7 +53,6 @@ function isBanned(query) {
   var url = 'http://www.yugioh-card.com/en/limited/';
   tabletojson.convertUrl(url, function(tablesAsJson) {
     var response = '';
-    var query = "scout";
 
     var forbidden = tablesAsJson[1];
     var limited = tablesAsJson[2];
