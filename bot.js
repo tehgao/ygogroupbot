@@ -66,6 +66,7 @@ function isBanned(query) {
         if(forbidden[i][1].toLowerCase().indexOf(query.toLowerCase()) > -1) {
             name = forbidden[i][1];
             status = "forbidden";
+            found = 1;
         }
     }
 
@@ -73,6 +74,7 @@ function isBanned(query) {
         if(limited[i][1].toLowerCase().indexOf(query.toLowerCase()) > -1) {
             name = limited[i][1];
             status = "limited";
+            found = 1;
         }
     }
 
@@ -80,10 +82,15 @@ function isBanned(query) {
         if(semi[i][1].toLowerCase().indexOf(query.toLowerCase()) > -1) {
             name = semi[i][1];
             status = "semi-limited";
+            found = 1;
         }
     }
 
-    response = name.concat(' is ').concat(status).concat('.');
+    if(found == 1) {
+      response = name.concat(' is ').concat(status).concat('.');
+    } else {
+      response = "Not on list!";
+    }
 
     postMessage(response);
   });
