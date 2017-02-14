@@ -267,28 +267,28 @@ function cardInfo(cardName) {
 function banlist() {
   var cards = [
     "Pot of Greed",
-    "Shapesnatch",
-    "Thunder King Rai-Oh",
     "Sangan",
     "Every card printed in Starter Deck Joey",
     "Jerry Beans Man",
-    "Deskbot 009",
     "DANKO SWAGGA",
     "MY PERFECTLY ULTIMATE GREAT MOTH",
     "Man-Eater Bug",
-    "Ignister",
     "Trishula",
     "Ojama Blue",
     "Raigeki",
     "Solemn Strike",
-    "Exciton",
     "Elemental HERO Stratos",
     "Construct",
-    "Ulti-Cannahawk",
     "Dark Law",
     "Gate Guardian",
     "Every card, except \"Frog the Jam\"",
-    "Literally every single card ever"
+    "Literally every single card ever",
+    "Ratpier",
+    "Pot of Gre-- I mean Desires".
+    "Maxx C",
+    "Heavy Storm",
+    "Painful Choice",
+    "Literally all commons"
   ];
   var reasons = [
     "because Konami",
@@ -313,7 +313,11 @@ function banlist() {
     "because #YOLO",
     "because why not?",
     "to encourage format diversity",
-    "to balance the meta"
+    "to balance the meta",
+    "because Trump complained about it",
+    "because synchros ruined the game",
+    "because it's they didn't want to recycle the same list",
+    "to spice up the meta"
   ];
 
   var random_card = cards[Math.floor(Math.random()*cards.length)];
