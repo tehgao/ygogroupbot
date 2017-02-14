@@ -12,6 +12,7 @@ function respond() {
   var requestRegex = /^\//;
 
   var banlistRegex = /^\/banlist/i;
+  var bannedRegex = /^\/banned/i
   var priceRegex = /^\/price/i;
   var deckRegex = /^\/deck/i;
   var potOfGreed = /^what does pot of greed do/i;
@@ -30,6 +31,8 @@ function respond() {
 		  postMessage(dankMeme());
     } else if(infoRegex.test(request.text)) {
       cardInfo(request.text.replace(/\/card */i, ""));
+    } else if(bannedRegex.test(request.text)) {
+      isBanned(request.text.replace(/\/banned */i, ""));
     } else {
       // botResponse = "I'm sorry, I can't do that.";
     }
@@ -43,6 +46,48 @@ function respond() {
     this.res.writeHead(200);
     this.res.end();
   }
+}
+
+function isBanned(query) {
+  var tabletojson = require('tabletojson');
+  var url = 'http://www.yugioh-card.com/en/limited/';
+  tabletojson.convertUrl(url, function(tablesAsJson) {
+    var response = '';
+    var query = "scout";
+
+    var forbidden = tablesAsJson[1];
+    var limited = tablesAsJson[2];
+    var semi = tablesAsJson[3];
+
+    var name = "";
+    var status = "";
+
+    var found = 0;
+    for(i = 0; i < forbidden.length && found == 0; i++) {
+        if(forbidden[i][1].toLowerCase().indexOf(query.toLowerCase()) > -1) {
+            name = forbidden[i][1];
+            status = "forbidden";
+        }
+    }
+
+    for(i = 0; i < limited.length && found == 0; i++) {
+        if(limited[i][1].toLowerCase().indexOf(query.toLowerCase()) > -1) {
+            name = limited[i][1];
+            status = "limited";
+        }
+    }
+
+    for(i = 0; i < semi.length && found == 0; i++) {
+        if(semi[i][1].toLowerCase().indexOf(query.toLowerCase()) > -1) {
+            name = semi[i][1];
+            status = "semi-limited";
+        }
+    }
+
+    response = name.concat(' is ').concat(status).concat('.');
+
+    postMessage(response);
+  });
 }
 
 function cardPrice(cardname) {
@@ -127,7 +172,7 @@ function cardPriceByName(cardname) {
         output += cardname + "\n";
         for(var i = 0; i < prices.data.length && i < 3; i++) {
           var thisPrice = prices.data[i];
-          
+
           output += thisPrice.print_tag + ": ";
 
           // console.log(thisPrice.price_data.data);
@@ -215,9 +260,9 @@ function cardInfo(cardName) {
 
 function banlist() {
   var cards = [
-    "Pot of Greed", 
-    "Shapesnatch", 
-    "Thunder King Rai-Oh", 
+    "Pot of Greed",
+    "Shapesnatch",
+    "Thunder King Rai-Oh",
     "Sangan",
     "Every card printed in Starter Deck Joey",
     "Jerry Beans Man",
@@ -240,9 +285,9 @@ function banlist() {
     "Literally every single card ever"
   ];
   var reasons = [
-    "because Konami", 
-    "to balance out Hungry Burger OTK", 
-    "because it's inherently unfair", 
+    "because Konami",
+    "to balance out Hungry Burger OTK",
+    "because it's inherently unfair",
     "to sell the new Ice Barriers structure deck",
     "because of the potential interactions with Jerry Beans Man",
     "because Konami learned their lesson with Dragon Rulers",
@@ -322,7 +367,7 @@ function deckMix() {
     ["I really think", "is gonna be good next format."],
     ["Hey, Spoofy here, doing a deck profile on", ""],
     ["", "is going to be good post-BOSH"],
-    ["I was on tilt after I got knocked around by Ojamas, but getting 2-0'd by", 
+    ["I was on tilt after I got knocked around by Ojamas, but getting 2-0'd by",
       "made me sell my deck"],
     ["I'm totally playing", "next format."]
   ];
@@ -363,7 +408,7 @@ function dankMeme() {
 		"Upstart Hoban",
 		"Noah Greene"
 	];
-	
+
 	var meme_suffix = [
 		"will enlighten you.",
 		"has topped yet another ARG event.",
@@ -371,12 +416,12 @@ function dankMeme() {
 		"went +10 turn one.",
 		"is literally cancer."
 	];
-	
+
 	var random_prefix = meme_prefix[Math.floor(Math.random() * meme_prefix.length)];
 	var random_suffix = meme_suffix[Math.floor(Math.random() * meme_suffix.length)];
-	
+
 	var dank_meme = random_prefix.concat(" ", random_suffix);
-	
+
 	return dank_meme;
 }
 
