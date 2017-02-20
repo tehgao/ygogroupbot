@@ -48,8 +48,8 @@ function sms() {
   var request = qs.parse(this.req.chunks[0]);
   var reqBody = request.Body;
 
-  if(/^\/price/i.test(reqBody)) {
-    var cardname = reqBody.replace(/\/price */i, "");
+  if(/^\price/i.test(reqBody)) {
+    var cardname = reqBody.replace(/\price */i, "");
 
     var options = {
       host: 'yugiohprices.com',
@@ -104,7 +104,7 @@ function sms() {
       });
     }
 
-    HTTP.get(options, callback).on('error', function(e) {
+    http.get(options, callback).on('error', function(e) {
       console.log("Error: ", e);
     });
   }
