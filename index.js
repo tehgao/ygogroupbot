@@ -92,12 +92,12 @@ function sms() {
             }
             output += "\n";
           }
+          
+          if(prices.data.length > 3) {
+            output += "(More...)";
+          }
         } else {
           output = "Card not found!";
-        }
-
-        if(prices.data.length > 3) {
-          output += "(More...)";
         }
 
         twiml.message(output);
