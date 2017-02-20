@@ -109,6 +109,12 @@ function sms() {
     http.get(options, callback).on('error', function(e) {
       console.log("Error: ", e);
     });
+  } else if(/banlist/i.test(reqBody)) {
+    twiml.message(bot.banlist());
+    myRes.writeHead(200, {'Content-Type': 'text/xml'});
+    myRes.end(twiml.toString());
+  } else {
+    // maybe do something later idk
   }
 
 }
