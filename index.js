@@ -47,7 +47,7 @@ function sms() {
 
   var request = qs.parse(this.req.chunks[0]);
 
-  console.log(request.body);
+  console.log(request.Body);
   twiml.message('The Robots are coming! Head for the hills!');
   this.res.writeHead(200, {'Content-Type': 'text/xml'});
   this.res.end(twiml.toString());
