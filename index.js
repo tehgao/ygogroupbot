@@ -44,7 +44,7 @@ function sms() {
   var twilio = require('twilio');
   var twiml = new twilio.TwimlResponse();
 
-  var request = JSON.parse(this.req.chunks[0]);
+  var request = JSON.parse(this.req);
 
   console.log(request.text);
   twiml.message('The Robots are coming! Head for the hills!');
