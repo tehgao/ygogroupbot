@@ -43,6 +43,8 @@ function ping() {
 function sms() {
   var twilio = require('twilio');
   var twiml = new twilio.TwimlResponse();
+
+  console.log(this.req);
   twiml.message('The Robots are coming! Head for the hills!');
   this.res.writeHead(200, {'Content-Type': 'text/xml'});
   this.res.end(twiml.toString());
