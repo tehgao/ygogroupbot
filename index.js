@@ -6,6 +6,7 @@ cool        = require('cool-ascii-faces');
 bot         = require('./bot.js');
 
 var twilio = require('twilio');
+var qs = require('querystring');
 
 router = new director.http.Router({
   '/' : {
@@ -44,7 +45,7 @@ function sms() {
   var twilio = require('twilio');
   var twiml = new twilio.TwimlResponse();
 
-  var request = JSON.parse(this.req.chunks[0]);
+  var request = qs.parse(this.req.chunks[0]);
 
   console.log(request.body);
   twiml.message('The Robots are coming! Head for the hills!');
