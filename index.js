@@ -48,6 +48,8 @@ function sms() {
   var request = qs.parse(this.req.chunks[0]);
   var reqBody = request.Body;
 
+  var myRes = this.res;
+
   if(/^\price/i.test(reqBody)) {
     var cardname = reqBody.replace(/\price */i, "");
 
@@ -99,8 +101,8 @@ function sms() {
         }
 
         twiml.message(output);
-        this.res.writeHead(200, {'Content-Type': 'text/xml'});
-        this.res.end(twiml.toString());
+        myRes.writeHead(200, {'Content-Type': 'text/xml'});
+        myRes.end(twiml.toString());
       });
     }
 
