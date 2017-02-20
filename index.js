@@ -11,7 +11,7 @@ router = new director.http.Router({
   '/' : {
     post: bot.respond,
     get: ping
-  }
+  },
 
   '/sms' : {
     post: sms,
