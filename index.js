@@ -10,7 +10,7 @@ var qs = require('querystring');
 
 router = new director.http.Router({
   '/' : {
-    post: bot.respond,
+    post: groupme,
     get: ping
   },
 
@@ -41,80 +41,59 @@ function ping() {
     + bot.banlist() + "\</h1\>\</p\>\</body\>\</html\>");
 }
 
-function sms() {
+function respondToTwilio(text) {
   var twilio = require('twilio');
   var twiml = new twilio.TwimlResponse();
 
+  twiml.message(output);
+  this.res.writeHead(200, {'Content-Type': 'text/xml'});
+  this.res.end(twiml.toString());
+}
+
+function respondToGroupMe(text) {
+  var botResponse, options, body, botReq;
+
+  botResponse = text;
+
+  options = {
+    hostname: 'api.groupme.com',
+    path: '/v3/bots/post',
+    method: 'POST'
+  };
+
+  body = {
+    "bot_id" : botID,
+    "text" : botResponse
+  };
+
+  console.log('sending ' + botResponse + ' to ' + botID);
+
+  botReq = HTTPS.request(options, function(res) {
+      if(res.statusCode == 202) {
+        //neat
+      } else {
+        console.log('rejecting bad status code ' + res.statusCode);
+      }
+  });
+
+  botReq.on('error', function(err) {
+    console.log('error posting message '  + JSON.stringify(err));
+  });
+  botReq.on('timeout', function(err) {
+    console.log('timeout posting message '  + JSON.stringify(err));
+  });
+  botReq.end(JSON.stringify(body));
+  this.res.writeHead(200);
+  this.res.end();
+}
+
+
+function sms() {
   var request = qs.parse(this.req.chunks[0]);
-  var reqBody = request.Body;
+  bot.respond(request, respondToTwilio);
+}
 
-  var myRes = this.res;
-
-  if(/^\price/i.test(reqBody)) {
-    var cardname = reqBody.replace(/\price */i, "");
-
-    var options = {
-      host: 'yugiohprices.com',
-      path: "/api/get_card_prices/".concat(cardname),
-    };
-
-    callback = function(response) {
-      var str = '';
-
-      response.on('data', function (chunk) {
-        str += chunk;
-      });
-
-      response.on('end', function () {
-        var resp = str;
-
-        var prices = JSON.parse(resp);
-
-        output = "";
-
-        console.log(str);
-
-        if(prices.status == "success") {
-          output += cardname + "\n";
-          for(var i = 0; i < prices.data.length && i < 3; i++) {
-            var thisPrice = prices.data[i];
-
-            output += thisPrice.print_tag + ": ";
-
-            // console.log(thisPrice.price_data.data);
-            if(thisPrice.price_data.status == "success") {
-              output += "Low: $" + thisPrice.price_data.data.prices.low.toFixed(2) + ", ";
-              output += " Avg: $" + thisPrice.price_data.data.prices.average.toFixed(2) + ", ";
-              output += " High: $" + thisPrice.price_data.data.prices.high.toFixed(2) + "\n";
-              output += "Shift: " + (thisPrice.price_data.data.prices.shift_21 * 100).toFixed(2);
-            } else {
-              output += "Could not find prices!";
-            }
-            output += "\n";
-          }
-          
-          if(prices.data.length > 3) {
-            output += "(More...)";
-          }
-        } else {
-          output = "Card not found!";
-        }
-
-        twiml.message(output);
-        myRes.writeHead(200, {'Content-Type': 'text/xml'});
-        myRes.end(twiml.toString());
-      });
-    }
-
-    http.get(options, callback).on('error', function(e) {
-      console.log("Error: ", e);
-    });
-  } else if(/banlist/i.test(reqBody)) {
-    twiml.message(bot.banlist());
-    myRes.writeHead(200, {'Content-Type': 'text/xml'});
-    myRes.end(twiml.toString());
-  } else {
-    // maybe do something later idk
-  }
-
+function groupme() {
+  var request = JSON.parse(this.req.chunks[0]);
+  bot.respond(request, respondToGroupMe);
 }
