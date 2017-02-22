@@ -7,6 +7,7 @@ bot         = require('./bot.js');
 
 var twilio = require('twilio');
 var qs = require('querystring');
+var botID = process.env.BOT_ID;
 
 router = new director.http.Router({
   '/' : {
