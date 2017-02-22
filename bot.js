@@ -124,9 +124,9 @@ function cardPriceByPrintTag(cardname, res, sendToApp) {
 
         var thisPrice = prices.data.price_data;
         output += thisPrice.rarity + "\n";
-        output += " Low: $" + thisPrice.price_data.data.prices.low.toFixed(2) + ", ";
-        output += " Avg: $" + thisPrice.price_data.data.prices.average.toFixed(2) + ", ";
-        output += " High: $" + thisPrice.price_data.data.prices.high.toFixed(2) + "\n";
+        output += "Low: $" + thisPrice.price_data.data.prices.low.toFixed(2) + ", ";
+        output += "Avg: $" + thisPrice.price_data.data.prices.average.toFixed(2) + ", ";
+        output += "High: $" + thisPrice.price_data.data.prices.high.toFixed(2) + "\n";
         output += "Shift: " + (thisPrice.price_data.data.prices.shift_21 * 100).toFixed(2);
         output += "\n";
       } else {
