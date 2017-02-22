@@ -70,11 +70,11 @@ function respondToGroupMe(text) {
 
   console.log('sending ' + botResponse + ' to ' + botID);
 
-  botReq = https.request(options, function(res) {
-      if(res.statusCode == 202) {
+  botReq = https.request(options, function(r) {
+      if(r.statusCode == 202) {
         //neat
       } else {
-        console.log('rejecting bad status code ' + res.statusCode);
+        console.log('rejecting bad status code ' + r.statusCode);
       }
   });
 
@@ -85,8 +85,6 @@ function respondToGroupMe(text) {
     console.log('timeout posting message '  + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
-  this.res.writeHead(200);
-  this.res.end();
 }
 
 
