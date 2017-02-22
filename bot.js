@@ -5,6 +5,12 @@ var fs = require('fs');
 
 var botID = process.env.BOT_ID;
 
+var HELP_MESG = `Usage:
+- Price <cardname>, e.g. "Price Sangan" for prices by card name
+- Price <setcode>, e.g. "Price SDY-001" for prices by set code
+- Banned <cardname>, e.g. "Banned Heavy Storm" to check F/L status
+- Card <cardname>, e.g. "Card Pot of Greed" to look up card text`;
+
 function respond(request, res, callback) {
   var requestRegex = /^\//;
 
@@ -15,6 +21,7 @@ function respond(request, res, callback) {
   var potOfGreed = /^what does pot of greed do/i;
   var memeRegex = /^\/meme/i;
   var infoRegex = /^\/card/i;
+  var helpRegex = /^\/help/i;
 
   if(request.text && requestRegex.test(request.text)) {
     if(banlistRegex.test(request.text)) {
@@ -29,6 +36,8 @@ function respond(request, res, callback) {
       cardInfo(request.text.replace(/\/card */i, ""), res, callback);
     } else if(bannedRegex.test(request.text)) {
       isBanned(request.text.replace(/\/banned */i, ""), res, callback);
+    } else if(helpRegex.test(request.text) {
+      callback(HELP_MESG, res);
     } else {
       // botResponse = "I'm sorry, I can't do that.";
     }
