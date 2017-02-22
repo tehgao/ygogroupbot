@@ -5,14 +5,11 @@ var fs = require('fs');
 
 var botID = process.env.BOT_ID;
 
-function respond() {
-  var request = JSON.parse(this.req.chunks[0]);
-      // botRegex = /^\/cool guy$/;
-
+function respond(request, callback) {
   var requestRegex = /^\//;
 
   var banlistRegex = /^\/banlist/i;
-  var bannedRegex = /^\/banned/i
+  var bannedRegex = /^\/banned/i;
   var priceRegex = /^\/price/i;
   var deckRegex = /^\/deck/i;
   var potOfGreed = /^what does pot of greed do/i;
@@ -20,27 +17,24 @@ function respond() {
   var infoRegex = /^\/card/i;
 
   if(request.text && requestRegex.test(request.text)) {
-    this.res.writeHead(200);
     if(banlistRegex.test(request.text)) {
-      postMessage(banlist());
+      callback(banlist());
     } else if (priceRegex.test(request.text)) {
-      cardPrice(request.text.replace(/\/price */i, ""));
+      cardPrice(request.text.replace(/\/price */i, ""), callback);
     } else if(deckRegex.test(request.text)) {
-      postMessage(deckMix());
+      callback(deckMix());
     } else if(memeRegex.test(request.text)) {
-		  postMessage(dankMeme());
+		  callback(dankMeme());
     } else if(infoRegex.test(request.text)) {
-      cardInfo(request.text.replace(/\/card */i, ""));
+      cardInfo(request.text.replace(/\/card */i, ""), callback);
     } else if(bannedRegex.test(request.text)) {
-      isBanned(request.text.replace(/\/banned */i, ""));
+      isBanned(request.text.replace(/\/banned */i, ""), callback);
     } else {
       // botResponse = "I'm sorry, I can't do that.";
     }
     this.res.end();
   } else if(request.text && potOfGreed.test(request.text)) {
-    this.res.writeHead(200);
-    postMessage("I ACTIVATE POT OF GREED! IT ALLOWS ME TO ADD TWO CARDS FROM MY DECK TO MY HAND.");
-    this.res.end();
+    callback("I ACTIVATE POT OF GREED! IT ALLOWS ME TO ADD TWO CARDS FROM MY DECK TO MY HAND.");
   } else {
     console.log("don't care");
     this.res.writeHead(200);
@@ -48,7 +42,7 @@ function respond() {
   }
 }
 
-function isBanned(query) {
+function isBanned(query, callback) {
   var tabletojson = require('tabletojson');
   var url = 'http://www.yugioh-card.com/en/limited/';
   tabletojson.convertUrl(url, function(tablesAsJson) {
@@ -92,22 +86,22 @@ function isBanned(query) {
       response = "Not on list!";
     }
 
-    postMessage(response);
+    callback(response);
   });
 }
 
-function cardPrice(cardname) {
+function cardPrice(cardname, callback) {
   // regex to match strings formatted like print tags, i.e. SDK-001, CROS-EN050
   var printTagRegex = /[0-9a-zA-Z]{3,4}-([a-zA-Z]{2})?\d+/;
 
   if(printTagRegex.test(cardname)) {
-    cardPriceByPrintTag(cardname);
+    cardPriceByPrintTag(cardname, callback);
   } else {
-    cardPriceByName(cardname);
+    cardPriceByName(cardname, callback);
   }
 }
 
-function cardPriceByPrintTag(cardname) {
+function cardPriceByPrintTag(cardname, sendToApp) {
  var options = {
     host: 'yugiohprices.com',
     path: "/api/price_for_print_tag/".concat(cardname.replace(/[^a-zA-Z0-9-]/,"")),
@@ -143,7 +137,7 @@ function cardPriceByPrintTag(cardname) {
         output = "Print Tag not found!";
       }
 
-      postMessage(output);
+      sendToApp(output);
     });
   }
 
@@ -152,7 +146,7 @@ function cardPriceByPrintTag(cardname) {
   });
 }
 
-function cardPriceByName(cardname) {
+function cardPriceByName(cardname, sendToApp) {
   var options = {
     host: 'yugiohprices.com',
     path: "/api/get_card_prices/".concat(cardname),
@@ -192,15 +186,14 @@ function cardPriceByName(cardname) {
           }
           output += "\n";
         }
+
+        if(prices.data.length > 3) {
+          output += "(More...)";
+        }
       } else {
         output = "Card not found!";
       }
-
-      if(prices.data.length > 3) {
-        output += "(More...)";
-      }
-
-      postMessage(output);
+      sendToApp(output);
     });
   }
 
@@ -209,7 +202,7 @@ function cardPriceByName(cardname) {
   });
 }
 
-function cardInfo(cardName) {
+function cardInfo(cardName, sendToApp) {
   var options = {
     host: 'yugiohprices.com',
     path: "/api/card_data/".concat(cardName),
@@ -255,7 +248,7 @@ function cardInfo(cardName) {
         output = "Card not found!";
       }
 
-      postMessage(output);
+      sendToApp(output);
     });
   }
 
@@ -478,6 +471,8 @@ function postMessage(text) {
     console.log('timeout posting message '  + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
+  this.res.writeHead(200);
+  this.res.end();
 }
 
 // stackoverflow ftw
