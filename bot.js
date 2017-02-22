@@ -90,7 +90,7 @@ function isBanned(query, callback) {
 
 function cardPrice(cardname, res, callback) {
   // regex to match strings formatted like print tags, i.e. SDK-001, CROS-EN050
-  var printTagRegex = /[0-9a-zA-Z]{3,4}-([a-zA-Z]{2})?\d+/;
+  var printTagRegex = /[0-9a-zA-Z]{3,4}-([a-zA-Z]{2,3})?\d+/;
 
   if(printTagRegex.test(cardname)) {
     cardPriceByPrintTag(cardname, res, callback);
