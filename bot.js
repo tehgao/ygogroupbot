@@ -16,8 +16,6 @@ function respond(request, res, callback) {
   var memeRegex = /^\/meme/i;
   var infoRegex = /^\/card/i;
 
-  console.log(request);
-
   if(request.text && requestRegex.test(request.text)) {
     if(banlistRegex.test(request.text)) {
       callback(banlist(), res);
@@ -121,8 +119,6 @@ function cardPriceByPrintTag(cardname, res, sendToApp) {
 
       output = "";
 
-      console.log(str);
-
       if(prices.status == "success") {
         output += prices.data.name + "\n";
 
@@ -165,8 +161,6 @@ function cardPriceByName(cardname, res, sendToApp) {
       var prices = JSON.parse(resp);
 
       output = "";
-
-      console.log(str);
 
       if(prices.status == "success") {
         output += cardname + "\n";
@@ -221,8 +215,6 @@ function cardInfo(cardName, res, sendToApp) {
       var info = JSON.parse(resp);
 
       output = "";
-
-      console.log(str);
 
       if(info.status == "success") {
         var data = info.data;
