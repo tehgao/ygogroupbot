@@ -92,7 +92,8 @@ function respondToGroupMe(text) {
 function sms() {
   console.log('firing sms');
   var request = qs.parse(this.req.chunks[0]);
-  bot.respond(request.Body, respondToTwilio);
+  request.text = request.Body;
+  bot.respond(request, respondToTwilio);
 }
 
 function groupme() {
