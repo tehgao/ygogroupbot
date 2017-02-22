@@ -92,8 +92,8 @@ function respondToGroupMe(text, res) {
 
 function sms() {
   var request = qs.parse(this.req.chunks[0]);
-  request.text = request.Body;
-  bot.respond('/' + request, this.res, respondToTwilio);
+  request.text = '/'.concat(request.Body);
+  bot.respond(request, this.res, respondToTwilio);
 }
 
 function groupme() {

@@ -146,7 +146,7 @@ function cardPriceByPrintTag(cardname, res, sendToApp) {
   });
 }
 
-function cardPriceByName(cardname, sendToApp) {
+function cardPriceByName(cardname, sendToApp, res) {
   var options = {
     host: 'yugiohprices.com',
     path: "/api/get_card_prices/".concat(cardname),
@@ -202,7 +202,7 @@ function cardPriceByName(cardname, sendToApp) {
   });
 }
 
-function cardInfo(cardName, sendToApp) {
+function cardInfo(cardName, sendToApp, res) {
   var options = {
     host: 'yugiohprices.com',
     path: "/api/card_data/".concat(cardName),
