@@ -16,6 +16,8 @@ function respond(request, res, callback) {
   var memeRegex = /^\/meme/i;
   var infoRegex = /^\/card/i;
 
+  console.log(request);
+
   if(request.text && requestRegex.test(request.text)) {
     if(banlistRegex.test(request.text)) {
       callback(banlist(), res);
