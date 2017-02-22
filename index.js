@@ -55,7 +55,9 @@ function respondToTwilio(text, res) {
 }
 
 function respondToGroupMe(text, res) {
-  var botResponse, options, body, botReq;
+  var botResponse, options, body, botReq, myres;
+
+  myres = res;
 
   botResponse = text;
 
@@ -87,6 +89,9 @@ function respondToGroupMe(text, res) {
     console.log('timeout posting message '  + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
+
+  myres.writeHead(200);
+  myres.end();
 }
 
 
