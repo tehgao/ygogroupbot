@@ -145,7 +145,7 @@ function cardPriceByPrintTag(cardname, res, sendToApp) {
 function cardPriceByName(cardname, res, sendToApp) {
   var options = {
     host: 'yugiohprices.com',
-    path: "/api/get_card_prices/".concat(encodeURI(cardname)),
+    path: "/api/get_card_prices/".concat(encodeURIComponent(cardname)),
   };
 
   callback = function(response) {
@@ -199,7 +199,7 @@ function cardPriceByName(cardname, res, sendToApp) {
 function cardInfo(cardName, res, sendToApp) {
   var options = {
     host: 'yugiohprices.com',
-    path: "/api/card_data/".concat(encodeURI(cardName)),
+    path: "/api/card_data/".concat(encodeURIComponent(cardName)),
   };
 
   callback = function(response) {
