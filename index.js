@@ -47,7 +47,7 @@ function respondToTwilio(text) {
   var twilio = require('twilio');
   var twiml = new twilio.TwimlResponse();
 
-  twiml.message(output);
+  twiml.message(text);
   this.res.writeHead(200, {'Content-Type': 'text/xml'});
   this.res.end(twiml.toString());
 }
@@ -90,7 +90,7 @@ function respondToGroupMe(text) {
 
 function sms() {
   var request = qs.parse(this.req.chunks[0]);
-  bot.respond(request, respondToTwilio);
+  bot.respond(request.Body, respondToTwilio);
 }
 
 function groupme() {
