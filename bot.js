@@ -33,10 +33,10 @@ function respond(request, res, callback) {
       // botResponse = "I'm sorry, I can't do that.";
     }
   } else if(request.text && potOfGreed.test(request.text)) {
-    callback("I ACTIVATE POT OF GREED! IT ALLOWS ME TO ADD TWO CARDS FROM MY DECK TO MY HAND.");
+    callback("I ACTIVATE POT OF GREED! IT ALLOWS ME TO ADD TWO CARDS FROM MY DECK TO MY HAND.", res);
   } else {
     console.log("don't care");
-    callback("");
+    callback("", res);
   }
 }
 
