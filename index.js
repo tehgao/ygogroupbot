@@ -44,13 +44,15 @@ function ping() {
 }
 
 function respondToTwilio(text) {
+  myres = this.res;
+
   console.log('sending sms');
   var twilio = require('twilio');
   var twiml = new twilio.TwimlResponse();
 
   twiml.message(text);
-  this.res.writeHead(200, {'Content-Type': 'text/xml'});
-  this.res.end(twiml.toString());
+  myres.writeHead(200, {'Content-Type': 'text/xml'});
+  myres.end(twiml.toString());
 }
 
 function respondToGroupMe(text) {
