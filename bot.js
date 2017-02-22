@@ -5,7 +5,7 @@ var fs = require('fs');
 
 var botID = process.env.BOT_ID;
 
-function respond(request, callback) {
+function respond(request, res, callback) {
   var requestRegex = /^\//;
 
   var banlistRegex = /^\/banlist/i;
@@ -18,17 +18,17 @@ function respond(request, callback) {
 
   if(request.text && requestRegex.test(request.text)) {
     if(banlistRegex.test(request.text)) {
-      callback(banlist());
+      callback(banlist(), res);
     } else if (priceRegex.test(request.text)) {
-      cardPrice(request.text.replace(/\/price */i, ""), callback);
+      cardPrice(request.text.replace(/\/price */i, ""), res, callback);
     } else if(deckRegex.test(request.text)) {
-      callback(deckMix());
+      callback(deckMix(), res);
     } else if(memeRegex.test(request.text)) {
-		  callback(dankMeme());
+		  callback(dankMeme(), res);
     } else if(infoRegex.test(request.text)) {
-      cardInfo(request.text.replace(/\/card */i, ""), callback);
+      cardInfo(request.text.replace(/\/card */i, ""), res, callback);
     } else if(bannedRegex.test(request.text)) {
-      isBanned(request.text.replace(/\/banned */i, ""), callback);
+      isBanned(request.text.replace(/\/banned */i, ""), res, callback);
     } else {
       // botResponse = "I'm sorry, I can't do that.";
     }
@@ -88,18 +88,18 @@ function isBanned(query, callback) {
   });
 }
 
-function cardPrice(cardname, callback) {
+function cardPrice(cardname, res, callback) {
   // regex to match strings formatted like print tags, i.e. SDK-001, CROS-EN050
   var printTagRegex = /[0-9a-zA-Z]{3,4}-([a-zA-Z]{2})?\d+/;
 
   if(printTagRegex.test(cardname)) {
-    cardPriceByPrintTag(cardname, callback);
+    cardPriceByPrintTag(cardname, res, callback);
   } else {
-    cardPriceByName(cardname, callback);
+    cardPriceByName(cardname, res, callback);
   }
 }
 
-function cardPriceByPrintTag(cardname, sendToApp) {
+function cardPriceByPrintTag(cardname, res, sendToApp) {
  var options = {
     host: 'yugiohprices.com',
     path: "/api/price_for_print_tag/".concat(cardname.replace(/[^a-zA-Z0-9-]/,"")),
@@ -135,7 +135,7 @@ function cardPriceByPrintTag(cardname, sendToApp) {
         output = "Print Tag not found!";
       }
 
-      sendToApp(output);
+      sendToApp(output, res);
     });
   }
 
@@ -191,7 +191,7 @@ function cardPriceByName(cardname, sendToApp) {
       } else {
         output = "Card not found!";
       }
-      sendToApp(output);
+      sendToApp(output, res);
     });
   }
 
@@ -246,7 +246,7 @@ function cardInfo(cardName, sendToApp) {
         output = "Card not found!";
       }
 
-      sendToApp(output);
+      sendToApp(output, res);
     });
   }
 

@@ -43,8 +43,8 @@ function ping() {
     + bot.banlist() + "\</h1\>\</p\>\</body\>\</html\>");
 }
 
-function respondToTwilio(text) {
-  myres = this.res;
+function respondToTwilio(text, res) {
+  myres = res;
 
   console.log('sending sms');
   var twilio = require('twilio');
@@ -55,7 +55,7 @@ function respondToTwilio(text) {
   myres.end(twiml.toString());
 }
 
-function respondToGroupMe(text) {
+function respondToGroupMe(text, res) {
   var botResponse, options, body, botReq;
 
   botResponse = text;
@@ -95,10 +95,10 @@ function sms() {
   console.log('firing sms');
   var request = qs.parse(this.req.chunks[0]);
   request.text = request.Body;
-  bot.respond(request, respondToTwilio);
+  bot.respond(request, this.res, respondToTwilio);
 }
 
 function groupme() {
   var request = JSON.parse(this.req.chunks[0]);
-  bot.respond(request, respondToGroupMe);
+  bot.respond(request, this.res, respondToGroupMe);
 }
