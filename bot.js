@@ -208,7 +208,7 @@ function cardPriceByName(cardname, res, sendToApp) {
 function cardInfo(cardName, res, sendToApp) {
   var options = {
     host: 'yugiohprices.com',
-    path: "/api/card_data/".concat(encodeURIComponent(cardName)),
+    path: "/api/card_data/".concat(encodeURIComponent(cardName.trim())),
   };
 
   callback = function(response) {
