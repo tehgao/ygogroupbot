@@ -1,6 +1,7 @@
-var http, director, cool, bot, router, server, port;
+var http, https, director, cool, bot, router, server, port;
 
 http        = require('http');
+https       = require('https');
 director    = require('director');
 cool        = require('cool-ascii-faces');
 bot         = require('./bot.js');
@@ -69,7 +70,7 @@ function respondToGroupMe(text) {
 
   console.log('sending ' + botResponse + ' to ' + botID);
 
-  botReq = HTTPS.request(options, function(res) {
+  botReq = https.request(options, function(res) {
       if(res.statusCode == 202) {
         //neat
       } else {
