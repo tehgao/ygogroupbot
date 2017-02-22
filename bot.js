@@ -21,7 +21,7 @@ function respond(request, res, callback) {
   var potOfGreed = /^what does pot of greed do/i;
   var memeRegex = /^\/meme/i;
   var infoRegex = /^\/card/i;
-  var helpRegex = /^\/help/i;
+  var helpRegex = /^\/usage/i;
 
   if(request.text && requestRegex.test(request.text)) {
     if(banlistRegex.test(request.text)) {
