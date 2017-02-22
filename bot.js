@@ -36,7 +36,7 @@ function respond(request, res, callback) {
       cardInfo(request.text.replace(/\/card */i, ""), res, callback);
     } else if(bannedRegex.test(request.text)) {
       isBanned(request.text.replace(/\/banned */i, ""), res, callback);
-    } else if(helpRegex.test(request.text) {
+    } else if(helpRegex.test(request.text)) {
       callback(HELP_MESG, res);
     } else {
       // botResponse = "I'm sorry, I can't do that.";
