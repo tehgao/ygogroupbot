@@ -44,6 +44,7 @@ function ping() {
 }
 
 function respondToTwilio(text) {
+  console.log('sending sms');
   var twilio = require('twilio');
   var twiml = new twilio.TwimlResponse();
 
@@ -89,6 +90,7 @@ function respondToGroupMe(text) {
 
 
 function sms() {
+  console.log('firing sms');
   var request = qs.parse(this.req.chunks[0]);
   bot.respond(request.Body, respondToTwilio);
 }
