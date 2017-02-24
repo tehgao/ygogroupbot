@@ -49,7 +49,7 @@ function respond(request, res, callback) {
   }
 }
 
-function isBanned(query, callback) {
+function isBanned(query, res, callback) {
   var tabletojson = require('tabletojson');
   var url = 'http://www.yugioh-card.com/en/limited/';
   tabletojson.convertUrl(url, function(tablesAsJson) {
@@ -93,7 +93,7 @@ function isBanned(query, callback) {
       response = "Not on list!";
     }
 
-    callback(response);
+    callback(response, res);
   });
 }
 
